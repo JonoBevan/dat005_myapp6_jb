@@ -3,9 +3,6 @@
 
   environment {
     DOCKERHUB = credentials('DockerHub')         // Exposes DOCKERHUB_USR / DOCKERHUB_PSW
-    SERVICE = 'web'                              // <-- match this to your compose service name
-    REPORT_IN_CONTAINER = '/var/www/html/tests/report.xml'
-    REPORT_LOCAL = 'report.xml'
   }
 
   stages {
@@ -39,7 +36,8 @@
     }
 
   stage ('cleaning'){
-  steps{sh  'docker compose down'
+  steps{
+	  sh  'docker compose down'
 	sh 'docker compose down || true'
 	   }
   }
