@@ -1,8 +1,8 @@
- pipeline {
+pipeline {
   agent any
 
   environment {
-    DOCKERHUB = credentials('DockerHub')         // Exposes DOCKERHUB_USR / DOCKERHUB_PSW
+    DOCKERHUB = credentials('DockerHub')
   }
 
   stages {
@@ -14,33 +14,26 @@
 
     stage('Pull , build and Run dockerfile ') {
       steps {
-       
-      sh '''
-                docker stop myapp6 || true
-		        docker rm myapp6 || true
-		        docker rmi bassam2080/myapp6 || true
-		        docker build -t bassam2080/myapp6  . 
-				docker compose up -d
-        
+        sh '''
+          docker stop myapp6 || true
+          docker rm myapp6 || true
+          docker rmi bassam2080/myapp6 || true
+          docker build -t bassam2080/myapp6 .
+          docker compose up -d
         '''
       }
     }
 
-   
-
-    
     stage('Run Tests') {
       steps {
         echo "done testing"
       }
     }
 
-  stage ('cleaning'){
-  steps{
-	  sh  'docker compose down'
-	sh 'docker compose down || true'
-	   }
+    stage('cleaning'){
+      steps{
+        sh 'docker compose down || true'
+      }
+    }
   }
-  
 }
- }
